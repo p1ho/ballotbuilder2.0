@@ -1,0 +1,31 @@
+<!--
+  Generated template for the CandidateDetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>candidate-detail</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <h1>{{ candidate.candidateName }} ({{ candidate.candidateParty }})</h1>
+  <button ion-button>Vote!</button>
+  <h2>Bio:</h2>
+  <p>Occupation: {{ candidate.candidateBio['occupation'] }}</p>
+  <p>Education: {{ candidate.candidateBio['education'] }}</p>
+  <p>Qualifications: {{ candidate.candidateBio['qualifications'] }}</p>
+  <h2>Policies:</h2>
+  <div *ngFor="let policy of parsePolicies()">
+    <p>{{ policy.question }}</p>
+    <p>{{ policy.answer }}</p>
+  </div>
+  <h2>Arguments For</h2>
+
+
+</ion-content>

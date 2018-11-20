@@ -6,11 +6,16 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { CandidateDetailPage } from '../pages/candidate-detail/candidate-detail';
+import { MeasureDetailPage } from '../pages/measure-detail/measure-detail';
+import { BallotDataServiceProvider } from '../providers/ballot-data-service/ballot-data-service';
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+    CandidateDetailPage,
+    MeasureDetailPage
   ],
   imports: [
     BrowserModule,
@@ -19,12 +24,15 @@ import { HomePage } from '../pages/home/home';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    CandidateDetailPage,
+    MeasureDetailPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    BallotDataServiceProvider
   ]
 })
 export class AppModule {}
