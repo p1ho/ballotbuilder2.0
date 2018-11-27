@@ -93,7 +93,7 @@ export class BallotDataServiceProvider {
 
   public getCandidateByKey(candidateKey: string) {
     for (let c of this.candidates) {
-      if (c.candidateKey === candidateKey) {
+      if (c.getCandidateKey() === candidateKey) {
         let clone = c;
         return clone;
       }
@@ -103,7 +103,7 @@ export class BallotDataServiceProvider {
 
   public getMeasureByKey(measureKey: string) {
     for (let m of this.measures) {
-      if (m.measureKey === measureKey) {
+      if (m.getMeasureKey() === measureKey) {
         let clone = m;
         return clone;
       }

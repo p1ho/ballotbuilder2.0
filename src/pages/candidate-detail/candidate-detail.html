@@ -14,12 +14,12 @@
 
 
 <ion-content padding>
-  <h1>{{ candidate.candidateName }} ({{ candidate.candidateParty }})</h1>
+  <h1>{{ candidate.getCandidateName() }} ({{ candidate.getCandidateParty() }})</h1>
   <button ion-button>Vote!</button>
   <h2>Bio:</h2>
-  <p>Occupation: {{ candidate.candidateBio['occupation'] }}</p>
-  <p>Education: {{ candidate.candidateBio['education'] }}</p>
-  <p>Qualifications: {{ candidate.candidateBio['qualifications'] }}</p>
+  <p>Occupation: {{ candidate.getCandidateBio()['occupation'] }}</p>
+  <p>Education: {{ candidate.getCandidateBio()['education'] }}</p>
+  <p>Qualifications: {{ candidate.getCandidateBio()['qualifications'] }}</p>
   <h2>Policies:</h2>
   <div *ngFor="let policy of parsePolicies()">
     <p>{{ policy.question }}</p>

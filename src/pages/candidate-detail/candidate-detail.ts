@@ -27,8 +27,9 @@ export class CandidateDetailPage {
 
   private parsePolicies() {
     let policiesList = [];
-    for (let policy in this.candidate.candidatePolicies) {
-      policiesList.push(this.candidate.candidatePolicies[policy]);
+    let policiesObject = this.candidate.getCandidatePolicies();
+    for (let policy in policiesObject) {
+      policiesList.push(policiesObject[policy]);
     }
     return policiesList;
   }

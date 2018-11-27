@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { BallotDataServiceProvider } from '../../providers/ballot-data-service/ballot-data-service';
-import { Measure } from '../../models/measure-detail';
+import { Measure } from '../../models/measure-model';
 
 /**
  * Generated class for the MeasureDetailPage page.
@@ -26,8 +26,9 @@ export class MeasureDetailPage {
 
   private parseDetails() {
     let detailsList = [];
-    for (let detail in this.measure.measureDetails) {
-      detailsList.push(this.measure.measureDetails[detail]);
+    let detailsObject = this.measure.getMeasureDetails();
+    for (let detail in detailsObject) {
+      detailsList.push(detailsObject[detail]);
     }
     return detailsList;
   }

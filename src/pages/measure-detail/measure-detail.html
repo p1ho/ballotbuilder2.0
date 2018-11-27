@@ -14,8 +14,8 @@
 
 
 <ion-content padding>
-  <h1>{{ measure.measureName }}</h1>
-  <p>{{ measure.measureSummary }}</p>
+  <h1>{{ measure.getMeasureName() }}</h1>
+  <p>{{ measure.getMeasureSummary() }}</p>
   <p>This proposal would:</p>
   <p *ngFor="let detail of parseDetails()">
     {{ detail }}
