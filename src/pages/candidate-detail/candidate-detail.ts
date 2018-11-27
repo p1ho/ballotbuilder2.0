@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { BallotDataServiceProvider } from '../../providers/ballot-data-service/ballot-data-service';
+import { Candidate } from '../../models/candidate-model';
 
 /**
  * Generated class for the CandidateDetailPage page.
