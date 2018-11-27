@@ -9,6 +9,8 @@ import { Measure } from '../../models/measure-model';
 
 import firebase from 'firebase';
 
+import { User } from '../../mmodels/user-model';
+
 const firebaseConfig = {
     apiKey: "AIzaSyAeceMNxKdLCOEA99OkX9DwpBv6Yl87FyY",
     authDomain: "ballotbuilder-bc9ac.firebaseapp.com",
@@ -32,6 +34,8 @@ export class BallotDataServiceProvider {
   private races: Race[] = [];
   private candidates: Candidate[] =[];
   private measures: Measure[] = [];
+  private users: User[] = [];
+  private activeUser: User;
 
   constructor() {
     this.clientObservable = Observable.create(observerThatWasCreated => {
@@ -66,6 +70,31 @@ export class BallotDataServiceProvider {
       });
       this.notifySubscribers();
     });
+    let usersRef = this.db.ref('/Users');
+    usersRef.on('value', snapshot => {
+      this.users = [];
+      snapshot.forEach(childSnapshot => {
+        let user = new User(childSnapshot.val().userName, childSnapshot.val().password, childSnapshot.key);
+        this.users.push(user);
+      });
+    });
+  }
+
+  public addUser(newUser: User) {
+    let userRef = this.db.ref('/Users');
+    let childRef = userRef.push();
+    dataRecord = {
+      username: user.getUserName(),
+      password: user.getPassword()
+    }
+    childref.set(dataRecord);
+
+    for (let user of this.users) {
+      if (user.getUserName() === newUser.getUserName() && user.getPassword() === newUser.getPassword()){
+        this.activeUser = user;
+      }
+    }
+    this.notifySubscribers();
   }
 
   public getObservable() {

@@ -10,4 +10,8 @@ export class User {
   public getUserKey() {
     return this.userKey;
   }
+
+  public getPassword() {
+  return this.password;
+  }
 }
