@@ -8,10 +8,10 @@
 - open terminal/command prompt with admin privileges
 
 - ``npm install -g ionic``  
-  (may require ``sudo`` on MAC or Linux)
+  (may require ``sudo`` on Mac or Linux)
 
 - ``npm install -g cordova``  
-  (may require ``sudo`` on MAC or Linux)
+  (may require ``sudo`` on Mac or Linux)
 
 - These dependencies are required globally
 
