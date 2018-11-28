@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { Race } from '../../models/race-model';
 import { Candidate } from '../../models/candidate-model';
 import { Measure } from '../../models/measure-model';
+import { Ballot } from '../../models/ballot-model';
 
 import firebase from 'firebase';
 
@@ -34,7 +35,6 @@ export class BallotDataServiceProvider {
   private races: Race[] = [];
   private candidates: Candidate[] =[];
   private measures: Measure[] = [];
-  private users: User[] = [];
   private activeUser: User;
 
   constructor() {
@@ -70,31 +70,52 @@ export class BallotDataServiceProvider {
       });
       this.notifySubscribers();
     });
+  }
+
+  public addUser(userName: string, password: string) {
+    let userRef = this.db.ref('/Users');
+    let childRef = userRef.push();
+    let dataRecord = {
+      username: userName,
+      password: password
+    }
+    childRef.set(dataRecord);
+  }
+
+  public setActiveUser(userName: string, password: string) {
     let usersRef = this.db.ref('/Users');
-    usersRef.on('value', snapshot => {
-      this.users = [];
+    this.activeUser = undefined;
+    return usersRef.once('value').then(snapshot => {
       snapshot.forEach(childSnapshot => {
-        let user = new User(childSnapshot.val().userName, childSnapshot.val().password, childSnapshot.key);
-        this.users.push(user);
+        if (childSnapshot.val().username === userName && childSnapshot.val().password === password) {
+          this.activeUser = new User(childSnapshot.val().username, childSnapshot.key);
+        }
       });
     });
   }
 
-  public addUser(newUser: User) {
-    let userRef = this.db.ref('/Users');
-    let childRef = userRef.push();
+  public getActiveUser() {
+    return this.activeUser;
+  }
+
+  public addBallot(userKey: string) {
+    let userRaces = [];
+    for (let r of this.races) {
+      userRaces.push({"raceKey": r.getRaceKey(), "vote": ""});
+    }
+    let userMeasures = [];
+    for (let m of this.measures) {
+      userMeasures.push({"measureKey": m.getMeasureKey(), "vote": ""});
+    }
+    let newBallot = new Ballot(userKey, userRaces, userMeasures, "");
+    let ballotRef = this.db.ref("/Ballots");
+    let childRef = ballotRef.push();
     let dataRecord = {
-      username: newUser.getUserName(),
-      password: newUser.getPassword()
+      userKey: newBallot.getUserKey(),
+      races: newBallot.getBallotRaces(),
+      measures: newBallot.getBallotMeasures()
     }
     childRef.set(dataRecord);
-
-    for (let user of this.users) {
-      if (user.getUserName() === newUser.getUserName() && user.getPassword() === newUser.getPassword()){
-        this.activeUser = user;
-      }
-    }
-    this.notifySubscribers();
   }
 
   public getObservable() {

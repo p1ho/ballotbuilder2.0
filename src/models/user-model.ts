@@ -1,5 +1,5 @@
 export class User {
-  public constructor(private userName: string, private password: string, private userKey: string) {
+  public constructor(private userName: string, private userKey: string) {
 
   }
 
@@ -9,9 +9,5 @@ export class User {
 
   public getUserKey() {
     return this.userKey;
-  }
-
-  public getPassword() {
-  return this.password;
   }
 }

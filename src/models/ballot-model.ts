@@ -1,5 +1,5 @@
 export class Ballot {
-  public constructor(private userKey: string, private ballotRaces: any, private ballotMeasures: any) {
+  public constructor(private userKey: string, private ballotRaces: any, private ballotMeasures: any, private ballotKey: string) {
 
   }
 
@@ -13,5 +13,9 @@ export class Ballot {
 
   public getBallotMeasures() {
     return this.ballotMeasures;
+  }
+
+  public getBallotKey() {
+    return this.ballotKey;
   }
 }

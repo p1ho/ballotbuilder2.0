@@ -8,6 +8,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { CandidateDetailPage } from '../pages/candidate-detail/candidate-detail';
 import { MeasureDetailPage } from '../pages/measure-detail/measure-detail';
+import { LoginPage } from '../pages/login/login';
 import { BallotDataServiceProvider } from '../providers/ballot-data-service/ballot-data-service';
 
 @NgModule({
@@ -15,7 +16,8 @@ import { BallotDataServiceProvider } from '../providers/ballot-data-service/ball
     MyApp,
     HomePage,
     CandidateDetailPage,
-    MeasureDetailPage
+    MeasureDetailPage,
+    LoginPage
   ],
   imports: [
     BrowserModule,
@@ -26,7 +28,8 @@ import { BallotDataServiceProvider } from '../providers/ballot-data-service/ball
     MyApp,
     HomePage,
     CandidateDetailPage,
-    MeasureDetailPage
+    MeasureDetailPage,
+    LoginPage
   ],
   providers: [
     StatusBar,
