@@ -9,7 +9,7 @@ import { Measure } from '../../models/measure-model';
 
 import firebase from 'firebase';
 
-import { User } from '../../mmodels/user-model';
+import { User } from '../../models/user-model';
 
 const firebaseConfig = {
     apiKey: "AIzaSyAeceMNxKdLCOEA99OkX9DwpBv6Yl87FyY",
@@ -83,11 +83,11 @@ export class BallotDataServiceProvider {
   public addUser(newUser: User) {
     let userRef = this.db.ref('/Users');
     let childRef = userRef.push();
-    dataRecord = {
-      username: user.getUserName(),
-      password: user.getPassword()
+    let dataRecord = {
+      username: newUser.getUserName(),
+      password: newUser.getPassword()
     }
-    childref.set(dataRecord);
+    childRef.set(dataRecord);
 
     for (let user of this.users) {
       if (user.getUserName() === newUser.getUserName() && user.getPassword() === newUser.getPassword()){
