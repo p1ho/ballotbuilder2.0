@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { BallotDataServiceProvider } from '../../providers/ballot-data-service/ballot-data-service';
 import { Candidate } from '../../models/candidate-model';
+import { Race } from '../../models/race-model';
 
 /**
  * Generated class for the CandidateDetailPage page.
@@ -19,10 +20,12 @@ export class CandidateDetailPage {
 
   private candidate: Candidate;
   private objectKeys = Object.keys;
+  private race: Race;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public ballotDataService: BallotDataServiceProvider) {
     let candidateKey = this.navParams.get("candidateKey");
     this.candidate = this.ballotDataService.getCandidateByKey(candidateKey);
+    this.race = this.ballotDataService.getRaceByKey(this.candidate.getRaceKey());
   }
 
   private parsePolicies() {

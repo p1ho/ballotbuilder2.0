@@ -151,6 +151,16 @@ export class BallotDataServiceProvider {
     return undefined;
   }
 
+  public getRaceByKey(raceKey: string) {
+    for (let r of this.races) {
+      if (r.getRaceKey() === raceKey) {
+        let clone = r;
+        return clone;
+      }
+    }
+    return undefined;
+  }
+
   public getMeasureByKey(measureKey: string) {
     for (let m of this.measures) {
       if (m.getMeasureKey() === measureKey) {
