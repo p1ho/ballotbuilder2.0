@@ -31,7 +31,7 @@ export class LoginPage {
     this.ballotDataService.addUser(this.userName, this.password);
     this.ballotDataService.setActiveUser(this.userName, this.password).then(() => {
       this.user = this.ballotDataService.getActiveUser();
-      this.ballotDataService.addBallot(this.user.getUserKey());
+      // this.ballotDataService.addBallot(this.user.getUserKey());
       this.navCtrl.push(HomePage);
     });
   }

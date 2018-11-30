@@ -1,5 +1,5 @@
 export class Candidate {
-  public constructor(private candidateName: string, private candidateParty: string, private candidateBio: any, private candidatePolicies: any, private raceKey: string, private candidateKey: string) {
+  public constructor(private candidateName: string, private candidateParty: string, private candidateBio: any, private candidatePolicies: any, private raceKey: string, private candidateKey: string, private numVotes: number) {
 
   }
 
@@ -25,5 +25,13 @@ export class Candidate {
 
   public getCandidateKey() {
     return this.candidateKey;
+  }
+
+  public getTotalVotes() {
+    return this.numVotes;
+  }
+
+  public setVote(voteCount: number) {
+    this.numVotes = voteCount;
   }
 }

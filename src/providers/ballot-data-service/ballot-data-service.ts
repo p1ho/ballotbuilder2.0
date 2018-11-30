@@ -56,7 +56,7 @@ export class BallotDataServiceProvider {
     candidatesRef.on('value', snapshot => {
       this.candidates = [];
       snapshot.forEach(childSnapshot => {
-        let candidate = new Candidate(childSnapshot.val().name, childSnapshot.val().party, childSnapshot.val().bio, childSnapshot.val().policies, childSnapshot.val().raceKey, childSnapshot.key);
+        let candidate = new Candidate(childSnapshot.val().name, childSnapshot.val().party, childSnapshot.val().bio, childSnapshot.val().policies, childSnapshot.val().raceKey, childSnapshot.key, childSnapshot.val().numVotes);
         this.candidates.push(candidate);
       });
       this.notifySubscribers();
@@ -65,7 +65,7 @@ export class BallotDataServiceProvider {
     measuresRef.on('value', snapshot => {
       this.measures = [];
       snapshot.forEach(childSnapshot => {
-        let measure = new Measure(childSnapshot.val().name, childSnapshot.val().summary, childSnapshot.val().details, childSnapshot.key);
+        let measure = new Measure(childSnapshot.val().name, childSnapshot.val().summary, childSnapshot.val().details, childSnapshot.key, childSnapshot.val().votesYes, childSnapshot.val().votesNo);
         this.measures.push(measure);
       });
       this.notifySubscribers();
@@ -73,32 +73,6 @@ export class BallotDataServiceProvider {
   }
 
   public addUser(userName: string, password: string) {
-    let userRef = this.db.ref('/Users');
-    let childRef = userRef.push();
-    let dataRecord = {
-      username: userName,
-      password: password
-    }
-    childRef.set(dataRecord);
-  }
-
-  public setActiveUser(userName: string, password: string) {
-    let usersRef = this.db.ref('/Users');
-    this.activeUser = undefined;
-    return usersRef.once('value').then(snapshot => {
-      snapshot.forEach(childSnapshot => {
-        if (childSnapshot.val().username === userName && childSnapshot.val().password === password) {
-          this.activeUser = new User(childSnapshot.val().username, childSnapshot.key);
-        }
-      });
-    });
-  }
-
-  public getActiveUser() {
-    return this.activeUser;
-  }
-
-  public addBallot(userKey: string) {
     let userRaces = [];
     for (let r of this.races) {
       userRaces.push({"raceKey": r.getRaceKey(), "vote": ""});
@@ -106,17 +80,61 @@ export class BallotDataServiceProvider {
     let userMeasures = [];
     for (let m of this.measures) {
       userMeasures.push({"measureKey": m.getMeasureKey(), "vote": ""});
-    }
-    let newBallot = new Ballot(userKey, userRaces, userMeasures, "");
-    let ballotRef = this.db.ref("/Ballots");
-    let childRef = ballotRef.push();
+
+    let userRef = this.db.ref('/Users');
+    let childRef = userRef.push();
     let dataRecord = {
-      userKey: newBallot.getUserKey(),
-      races: newBallot.getBallotRaces(),
-      measures: newBallot.getBallotMeasures()
-    }
+      username: userName,
+      password: password,
+      races: userRaces,
+      measures: userMeasures
+    };
     childRef.set(dataRecord);
   }
+
+  public setActiveUser(userName: string, password: string) {
+    let usersRef = this.db.ref('/Users');
+    this.activeUser = undefined;
+    return )usersRef.once('value').then(snapshot => {
+      snapshot.forEach(childSnapshot => {
+        if (childSnapshot.val().username === userName && childSnapshot.val().password === password) {
+          let userRaces = [];
+          for (let race in childSnapshot.val().races) {
+            userRaces.push(race);
+          }
+          let userMeasures = [];
+          for (let measure in childSnapshot.val().measures) {
+            userMeasures.push(measure);
+          }
+          this.activeUser = new User(childSnapshot.val().username, childSnapshot.key, userRaces, userMeasures);
+        }
+      });
+    });)
+  }
+
+  public getActiveUser() {
+    return this.activeUser;
+  }
+
+  // public addBallot(userKey: string) {
+  //   let userRaces = [];
+  //   for (let r of this.races) {
+  //     userRaces.push({"raceKey": r.getRaceKey(), "vote": ""});
+  //   }
+  //   let userMeasures = [];
+  //   for (let m of this.measures) {
+  //     userMeasures.push({"measureKey": m.getMeasureKey(), "vote": ""});
+  //   }
+  //   let newBallot = new Ballot(userKey, userRaces, userMeasures, "");
+  //   let ballotRef = this.db.ref("/Ballots");
+  //   let childRef = ballotRef.push();
+  //   let dataRecord = {
+  //     userKey: newBallot.getUserKey(),
+  //     races: newBallot.getBallotRaces(),
+  //     measures: newBallot.getBallotMeasures()
+  //   }
+  //   childRef.set(dataRecord);
+  // }
 
   public getObservable() {
     return this.clientObservable;

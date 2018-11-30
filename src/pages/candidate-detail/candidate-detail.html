@@ -7,15 +7,15 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Candidate Detail Page</ion-title>
-  </ion-navbar>
+    <ion-title>Candidate for {{race.getRaceName()}}</ion-title>
+   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
   <h1>{{ candidate.getCandidateName() }} ({{ candidate.getCandidateParty() }})</h1>
-  <button ion-button>Vote!</button>
+  <button ion-button (click)="voteFor()">Vote!</button>
   <h2>Bio:</h2>
   <p>Occupation: {{ candidate.getCandidateBio()['occupation'] }}</p>
   <p>Education: {{ candidate.getCandidateBio()['education'] }}</p>
