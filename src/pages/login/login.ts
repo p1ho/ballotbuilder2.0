@@ -39,6 +39,7 @@ export class LoginPage {
   public userLogin() {
     this.ballotDataService.setActiveUser(this.userName, this.password).then(() => {
       if (this.ballotDataService.getActiveUser() != undefined) {
+        console.log(this.ballotDataService.getActiveUser());
         this.navCtrl.push(HomePage);
       }
     });

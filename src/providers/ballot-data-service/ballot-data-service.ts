@@ -80,17 +80,16 @@ export class BallotDataServiceProvider {
     let userMeasures = [];
     for (let m of this.measures) {
       userMeasures.push({"measureKey": m.getMeasureKey(), "vote": ""});
-
-      let userRef = this.db.ref('/Users');
-      let childRef = userRef.push();
-      let dataRecord = {
-        username: userName,
-        password: password,
-        races: userRaces,
-        measures: userMeasures
-      };
-      childRef.set(dataRecord);
     }
+    let userRef = this.db.ref('/Users');
+    let childRef = userRef.push();
+    let dataRecord = {
+      username: userName,
+      password: password,
+      races: userRaces,
+      measures: userMeasures
+    };
+    childRef.set(dataRecord);
   }
 
   public setActiveUser(userName: string, password: string) {
