@@ -56,7 +56,7 @@ export class BallotDataServiceProvider {
     candidatesRef.on('value', snapshot => {
       this.candidates = [];
       snapshot.forEach(childSnapshot => {
-        let candidate = new Candidate(childSnapshot.val().name, childSnapshot.val().party, childSnapshot.val().bio, childSnapshot.val().policies, childSnapshot.val().raceKey, childSnapshot.key, childSnapshot.val().numVotes);
+        let candidate = new Candidate(childSnapshot.val().name, childSnapshot.val().party, childSnapshot.val().bio, childSnapshot.val().policies, childSnapshot.val().raceKey, childSnapshot.key, parseInt(childSnapshot.val().numVotes));
         this.candidates.push(candidate);
       });
       this.notifySubscribers();
@@ -99,12 +99,14 @@ export class BallotDataServiceProvider {
       snapshot.forEach(childSnapshot => {
         if (childSnapshot.val().username === userName && childSnapshot.val().password === password) {
           let userRaces = [];
-          for (let race in childSnapshot.val().races) {
-            userRaces.push(race);
+          let userRacesObject = childSnapshot.val().races;
+          for (let race in userRacesObject) {
+            userRaces.push(userRacesObject[race]);
           }
           let userMeasures = [];
-          for (let measure in childSnapshot.val().measures) {
-            userMeasures.push(measure);
+          let userMeasuresObject = childSnapshot.val().measures;
+          for (let measure in userMeasuresObject) {
+            userMeasures.push(userMeasuresObject[measure]);
           }
           this.activeUser = new User(childSnapshot.val().username, childSnapshot.key, userRaces, userMeasures);
         }
@@ -114,6 +116,28 @@ export class BallotDataServiceProvider {
 
   public getActiveUser() {
     return this.activeUser;
+  }
+
+  public updateUserRaces(races: any) {
+    this.activeUser.setRaces(races);
+    let userRacesRef = this.db.ref("/Users/" + this.activeUser.getUserKey() + "/races");
+    userRacesRef.set(this.activeUser.getRaces());
+    this.notifySubscribers();
+  }
+
+  public updateCandidateVotes(candidateKey: string, upOrDown: string) {
+    for (let candidate of this.candidates) {
+      if (candidate.getCandidateKey() === candidateKey) {
+        if (upOrDown === "up") {
+          candidate.setVote(candidate.getTotalVotes() + 1);
+        } else if (upOrDown === "down") {
+          candidate.setVote(candidate.getTotalVotes() - 1);
+        }
+        let candidateVotesRef = this.db.ref("/Candidates/" + candidateKey + "/numVotes");
+        candidateVotesRef.set(candidate.getTotalVotes());
+      }
+    }
+    this.notifySubscribers();
   }
 
   // public addBallot(userKey: string) {
@@ -188,5 +212,7 @@ export class BallotDataServiceProvider {
     }
     return undefined;
   }
+
+  public updateUserVotes()
 
 }

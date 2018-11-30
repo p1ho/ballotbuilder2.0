@@ -14,8 +14,9 @@
 
 
 <ion-content padding>
-  <h1>{{ candidate.getCandidateName() }} ({{ candidate.getCandidateParty() }})</h1>
+  <h1>{{ candidate.getCandidateName() }} ({{ candidate.getCandidateParty() }}) {{ candidate.getTotalVotes() }}</h1>
   <button ion-button (click)="voteFor()">Vote!</button>
+  <button ion-button (click) ="backToBallot()">Back</button>
   <h2>Bio:</h2>
   <p>Occupation: {{ candidate.getCandidateBio()['occupation'] }}</p>
   <p>Education: {{ candidate.getCandidateBio()['education'] }}</p>

@@ -27,6 +27,7 @@ export class HomePage {
       this.races = this.ballotDataService.getRaces();
       this.candidates = this.ballotDataService.getCandidates();
       this.measures = this.ballotDataService.getMeasures();
+      this.user = this.ballotDataService.getActiveUser();
     });
   }
 
@@ -36,6 +37,16 @@ export class HomePage {
 
   private viewMeasure(measureKey: string) {
     this.navCtrl.push(MeasureDetailPage, {"measureKey": measureKey})
+  }
+
+  private isVotedFor(candidateKey: string, raceKey: string) {
+    let userRaces = this.user.getRaces();
+    for (let race of userRaces) {
+      if (race["raceKey"] === raceKey && race["vote"] === candidateKey) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }

@@ -18,4 +18,12 @@ export class User {
   public getMeasures() {
   	return this.userMeasures;
   }
+
+  public setRaces(newRaces: any) {
+    this.userRaces = newRaces;
+  }
+
+  public setMeasures(newMeasures: any) {
+    this.userMeasures = newMeasures;
+  }
 }

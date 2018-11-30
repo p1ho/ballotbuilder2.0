@@ -28,6 +28,9 @@ export class CandidateDetailPage {
     this.candidate = this.ballotDataService.getCandidateByKey(candidateKey);
     this.race = this.ballotDataService.getRaceByKey(this.candidate.getRaceKey());
     this.user = this.ballotDataService.getActiveUser();
+    this.ballotDataService.getObservable().subscribe(() => {
+      this.candidate = this.ballotDataService.getCandidateByKey(candidateKey);
+    });
   }
 
   private parsePolicies() {
@@ -37,6 +40,31 @@ export class CandidateDetailPage {
       policiesList.push(policiesObject[policy]);
     }
     return policiesList;
+  }
+
+  public voteFor() {
+    let userRaces = this.user.getRaces();
+    for (let race of userRaces) {
+      if (race["raceKey"] === this.race.getRaceKey()) {
+        if (race["vote"] === "") {
+          race["vote"] = this.candidate.getCandidateKey();
+          this.ballotDataService.updateCandidateVotes(this.candidate.getCandidateKey(), "up");
+        } else if (race["vote"] === this.candidate.getCandidateKey()) {
+          console.log("repeat vote");
+        } else {
+          let previousVote = race["vote"];
+          race["vote"] = this.candidate.getCandidateKey();
+          this.ballotDataService.updateCandidateVotes(this.candidate.getCandidateKey(), "up");
+          this.ballotDataService.updateCandidateVotes(previousVote, "down");
+        }
+      }
+    }
+    this.user.setRaces(userRaces);
+    this.ballotDataService.updateUserRaces(this.user.getRaces());
+  }
+
+  public backToBallot() {
+    this.navCtrl.pop();
   }
 
   ionViewDidLoad() {
