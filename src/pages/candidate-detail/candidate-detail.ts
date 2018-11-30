@@ -39,10 +39,6 @@ export class CandidateDetailPage {
     return policiesList;
   }
 
-  public voteFor() {
-    let userRaces = this.user.
-  }
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad CandidateDetailPage');
   }
