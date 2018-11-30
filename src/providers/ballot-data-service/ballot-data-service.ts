@@ -81,21 +81,22 @@ export class BallotDataServiceProvider {
     for (let m of this.measures) {
       userMeasures.push({"measureKey": m.getMeasureKey(), "vote": ""});
 
-    let userRef = this.db.ref('/Users');
-    let childRef = userRef.push();
-    let dataRecord = {
-      username: userName,
-      password: password,
-      races: userRaces,
-      measures: userMeasures
-    };
-    childRef.set(dataRecord);
+      let userRef = this.db.ref('/Users');
+      let childRef = userRef.push();
+      let dataRecord = {
+        username: userName,
+        password: password,
+        races: userRaces,
+        measures: userMeasures
+      };
+      childRef.set(dataRecord);
+    }
   }
 
   public setActiveUser(userName: string, password: string) {
     let usersRef = this.db.ref('/Users');
     this.activeUser = undefined;
-    return )usersRef.once('value').then(snapshot => {
+    return usersRef.once('value').then(snapshot => {
       snapshot.forEach(childSnapshot => {
         if (childSnapshot.val().username === userName && childSnapshot.val().password === password) {
           let userRaces = [];
@@ -109,7 +110,7 @@ export class BallotDataServiceProvider {
           this.activeUser = new User(childSnapshot.val().username, childSnapshot.key, userRaces, userMeasures);
         }
       });
-    });)
+    });
   }
 
   public getActiveUser() {
