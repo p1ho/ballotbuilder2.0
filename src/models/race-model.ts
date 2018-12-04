@@ -1,7 +1,9 @@
 export class Race {
-  public constructor(private raceName: string, private raceDuties: string, private raceKey: string) {
-
-  }
+  public constructor(
+    private raceName: string,
+    private raceDuties: string,
+    private raceKey: string
+  ) {}
 
   public getRaceName() {
     return this.raceName;

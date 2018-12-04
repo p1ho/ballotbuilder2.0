@@ -1,7 +1,13 @@
 export class Candidate {
-  public constructor(private candidateName: string, private candidateParty: string, private candidateBio: any, private candidatePolicies: any, private raceKey: string, private candidateKey: string, private numVotes: number) {
-
-  }
+  public constructor(
+    private candidateName: string,
+    private candidateParty: string,
+    private candidateBio: any,
+    private candidatePolicies: any,
+    private raceKey: string,
+    private candidateKey: string,
+    private numVotes: number)
+  {}
 
   public getCandidateName() {
     return this.candidateName;

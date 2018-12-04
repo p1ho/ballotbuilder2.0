@@ -1,7 +1,12 @@
 export class Measure {
-  public constructor(private measureName: string, private measureSummary: string, private measureDetails: any, private measureKey: string, private votesYes: number, private votesNo: number) {
-
-  }
+  public constructor(
+    private measureName: string,
+    private measureSummary: string,
+    private measureDetails: any,
+    private measureKey: string,
+    private votesYes: number,
+    private votesNo: number
+  ) {}
 
   public getMeasureName() {
     return this.measureName;

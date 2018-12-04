@@ -1,7 +1,10 @@
 export class Ballot {
-  public constructor(private userKey: string, private ballotRaces: any, private ballotMeasures: any, private ballotKey: string) {
-
-  }
+  public constructor(
+    private userKey: string,
+    private ballotRaces: any,
+    private ballotMeasures: any,
+    private ballotKey: string
+  ) {}
 
   public getUserKey() {
     return this.userKey;
