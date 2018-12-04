@@ -4,6 +4,7 @@ import { BallotDataServiceProvider } from '../../providers/ballot-data-service/b
 import { Candidate } from '../../models/candidate-model';
 import { Race } from '../../models/race-model';
 import { User } from '../../models/user-model';
+import { CandidateComment } from '../../models/comment-model';
 /**
  * Generated class for the CandidateDetailPage page.
  *
@@ -22,14 +23,18 @@ export class CandidateDetailPage {
   private objectKeys = Object.keys;
   private race: Race;
   private user: User;
+  private comments: CandidateComment[];
+  private newCommentText: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public ballotDataService: BallotDataServiceProvider) {
     let candidateKey = this.navParams.get("candidateKey");
     this.candidate = this.ballotDataService.getCandidateByKey(candidateKey);
     this.race = this.ballotDataService.getRaceByKey(this.candidate.getRaceKey());
     this.user = this.ballotDataService.getActiveUser();
+    this.comments = this.ballotDataService.getCandidateCommentsByCandidateKey(candidateKey);
     this.ballotDataService.getObservable().subscribe(() => {
       this.candidate = this.ballotDataService.getCandidateByKey(candidateKey);
+      this.comments = this.ballotDataService.getCandidateCommentsByCandidateKey(candidateKey);
     });
   }
 
@@ -65,6 +70,14 @@ export class CandidateDetailPage {
 
   public backToBallot() {
     this.navCtrl.pop();
+  }
+
+  public addComment() {
+    if (this.newCommentText != '') {
+      let comment = new CandidateComment('', this.user.getUserName(), this.user.getUserKey(), this.newCommentText, 0, this.candidate.getCandidateKey());
+      this.ballotDataService.addCandidateComment(comment);
+      this.newCommentText = '';
+    }
   }
 
   ionViewDidLoad() {

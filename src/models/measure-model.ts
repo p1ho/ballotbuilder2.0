@@ -32,11 +32,11 @@ export class Measure {
     return this.votesNo;
   }
 
-  public setYes(YesCount: number) {
-    this.votesYes = YesCount;
+  public setYes(yesCount: number) {
+    this.votesYes = yesCount;
   }
 
-  public setNo(NoCount: number) {
-    this.votesNo = NoCount;
+  public setNo(noCount: number) {
+    this.votesNo = noCount;
   }
 }

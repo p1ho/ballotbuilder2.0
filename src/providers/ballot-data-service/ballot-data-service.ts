@@ -7,6 +7,7 @@ import { Race } from '../../models/race-model';
 import { Candidate } from '../../models/candidate-model';
 import { Measure } from '../../models/measure-model';
 import { Ballot } from '../../models/ballot-model';
+import { CandidateComment, MeasureComment } from '../../models/comment-model';
 
 import firebase from 'firebase';
 
@@ -36,6 +37,8 @@ export class BallotDataServiceProvider {
   private candidates: Candidate[] =[];
   private measures: Measure[] = [];
   private activeUser: User;
+  private candidateComments: CandidateComment[];
+  private measureComments: MeasureComment[];
 
   constructor() {
     this.clientObservable = Observable.create(observerThatWasCreated => {
@@ -65,8 +68,26 @@ export class BallotDataServiceProvider {
     measuresRef.on('value', snapshot => {
       this.measures = [];
       snapshot.forEach(childSnapshot => {
-        let measure = new Measure(childSnapshot.val().name, childSnapshot.val().summary, childSnapshot.val().details, childSnapshot.key, childSnapshot.val().votesYes, childSnapshot.val().votesNo);
+        let measure = new Measure(childSnapshot.val().name, childSnapshot.val().summary, childSnapshot.val().details, childSnapshot.key, parseInt(childSnapshot.val().votesYes), parseInt(childSnapshot.val().votesNo));
         this.measures.push(measure);
+      });
+      this.notifySubscribers();
+    });
+    let candidateCommentsRef = this.db.ref('/CandidateComments');
+    candidateCommentsRef.on('value', snapshot => {
+      this.candidateComments = [];
+      snapshot.forEach(childSnapshot => {
+        let candidateComment = new CandidateComment(childSnapshot.key, childSnapshot.val().userName, childSnapshot.val().userKey, childSnapshot.val().text, parseInt(childSnapshot.val().numVotes), childSnapshot.val().candidateKey);
+        this.candidateComments.push(candidateComment);
+      });
+      this.notifySubscribers();
+    });
+    let measureCommentsRef = this.db.ref('/MeasureComments');
+    measureCommentsRef.on('value', snapshot => {
+      this.measureComments = [];
+      snapshot.forEach(childSnapshot => {
+        let measureComment = new MeasureComment(childSnapshot.key, childSnapshot.val().userName, childSnapshot.val().userKey, childSnapshot.val().text, parseInt(childSnapshot.val().numVotes), childSnapshot.val().measureKey, childSnapshot.val().yesOrNo);
+        this.measureComments.push(measureComment);
       });
       this.notifySubscribers();
     });
@@ -122,6 +143,35 @@ export class BallotDataServiceProvider {
     this.activeUser.setRaces(races);
     let userRacesRef = this.db.ref("/Users/" + this.activeUser.getUserKey() + "/races");
     userRacesRef.set(this.activeUser.getRaces());
+    this.notifySubscribers();
+  }
+
+  public updateUserMeasures(measures: any) {
+    this.activeUser.setMeasures(measures);
+    let userMeasuresRef = this.db.ref("/Users/" + this.activeUser.getUserKey() + "/measures");
+    userMeasuresRef.set(this.activeUser.getMeasures());
+    this.notifySubscribers();
+  }
+
+  public updateMeasureYesVotes(measureKey: string) {
+    for (let measure of this.measures) {
+      if (measure.getMeasureKey() === measureKey) {
+        measure.setYes(measure.getYesVotes() + 1);
+        let measureYesVotesRef = this.db.ref("/Measures/" + measureKey + "/votesYes");
+        measureYesVotesRef.set(measure.getYesVotes());
+      }
+    }
+    this.notifySubscribers();
+  }
+
+  public updateMeasureNoVotes(measureKey: string) {
+    for (let measure of this.measures) {
+      if (measure.getMeasureKey() === measureKey) {
+        measure.setNo(measure.getNoVotes() + 1);
+        let measureNoVotesRef = this.db.ref("/Measures/" + measureKey + "/votesNo");
+        measureNoVotesRef.set(measure.getNoVotes());
+      }
+    }
     this.notifySubscribers();
   }
 
@@ -213,6 +263,55 @@ export class BallotDataServiceProvider {
     return undefined;
   }
 
-  public updateUserVotes()
+  public getCandidateCommentsByCandidateKey(candidateKey: string) {
+    let candidateCommentsClone = [];
+    for (let candidateComment of this.candidateComments) {
+      if (candidateComment.getCandidateKey() === candidateKey) {
+        let candidateCommentClone = JSON.parse(JSON.stringify(candidateComment));
+        candidateCommentsClone.push(new CandidateComment(candidateCommentClone['commentKey'], candidateCommentClone['userName'], candidateCommentClone['userKey'], candidateCommentClone['text'], parseInt(candidateCommentClone['numVotes']), candidateCommentClone['candidateKey']));
+      }
+    }
+    return candidateCommentsClone;
+  }
+
+  public getMeasureCommentsByMeasureKey(measureKey: string) {
+    let measureCommentsClone = [];
+    for (let measureComment of this.measureComments) {
+      if (measureComment.getMeasureKey() === measureKey) {
+        let measureCommentClone = JSON.parse(JSON.stringify(measureComment));
+        measureCommentsClone.push(new MeasureComment(measureCommentClone['commentKey'], measureCommentClone['userName'], measureCommentClone['userKey'], measureCommentClone['text'], parseInt(measureCommentClone['numVotes']), measureCommentClone['measureKey'], measureCommentClone['yesOrNo']));
+      }
+    }
+    return measureCommentsClone;
+  }
+
+  public addCandidateComment(comment: CandidateComment) {
+    let candidateCommentsRef = this.db.ref('/CandidateComments');
+    let childRef = candidateCommentsRef.push();
+    let dataRecord = {
+      userName: comment.getUserName(),
+      userKey: comment.getUserKey(),
+      text: comment.getText(),
+      numVotes: comment.getTotalVote(),
+      candidateKey: comment.getCandidateKey()
+    };
+    childRef.set(dataRecord);
+    this.notifySubscribers();
+  }
+
+  public addMeasureComment(comment: MeasureComment) {
+    let measureCommentsRef = this.db.ref('/MeasureComments');
+    let childRef = measureCommentsRef.push();
+    let dataRecord = {
+      userName: comment.getUserName(),
+      userKey: comment.getUserKey(),
+      text: comment.getText(),
+      numVotes: comment.getTotalVote(),
+      measureKey: comment.getMeasureKey(),
+      yesOrNo: comment.getYesOrNo()
+    };
+    childRef.set(dataRecord);
+    this.notifySubscribers();
+  }
 
 }

@@ -27,6 +27,16 @@
     <p>{{ policy.answer }}</p>
   </div>
   <h2>Arguments For</h2>
+  <ion-list>
+    <ion-item *ngFor="let comment of comments">
+      <p> {{ comment.getText() }}</p>
+      <p> {{ comment.getUserName() }}</p>
+    </ion-item>
+  </ion-list>
+  <ion-item>
+    <ion-textarea [(ngModel)]="newCommentText" placeholder="New Comment..."></ion-textarea>
+  </ion-item>
+  <button ion-button (click)="addComment()">Add Comment</button>
 
 
 </ion-content>
