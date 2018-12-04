@@ -1,5 +1,6 @@
 export class Comment {
   public constructor(
+    private commentKey: string,
     private userName: string,
     private userKey: string,
     private text: string,
