@@ -1,7 +1,10 @@
 export class User {
-  public constructor(private userName: string, private userKey: string, private userRaces: any, private userMeasures: any) {
-
-  }
+  public constructor(
+    private userName: string,
+    private userKey: string,
+    private userRaces: any,
+    private userMeasures: any
+  ) {}
 
   public getUserName() {
     return this.userName;
