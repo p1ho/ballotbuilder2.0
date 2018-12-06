@@ -17,42 +17,60 @@
 
 
 <ion-content padding>
-  <h1>{{ measure.getMeasureName() }}</h1>
-  <p>{{ measure.getMeasureSummary() }}</p>
-  <p>This proposal would:</p>
-  <p *ngFor="let detail of parseDetails()">
-    {{ detail }}
-  </p>
-  <button ion-button (click)="voteYes()">Vote Yes</button>
-  <button ion-button (click)="voteNo()">Vote No</button>
-  <h2>Yes {{ measure.getYesVotes() }}</h2>
-  <ion-list>
-    <ion-item *ngFor="let comment of yesComments">
-      <p>{{ comment.getText() }}</p>
-      <p>{{ comment.getUserName() }}</p>
-    </ion-item>
-  </ion-list>
-  <h2>No {{ measure.getNoVotes() }}</h2>
-  <ion-list>
-    <ion-item *ngFor="let comment of noComments">
-      <p>{{ comment.getText() }}</p>
-      <p>{{ comment.getUserName() }}</p>
-    </ion-item>
-  </ion-list>
-  <h2>Add New Comment</h2>
-  <ion-list>
-    <ion-item>
-      <ion-textarea [(ngModel)]="newCommentText" placeholder="New Comment..."></ion-textarea>
-    </ion-item>
-    <ion-item>
-      <ion-label>Yes or No?</ion-label>
-      <ion-select [(ngModel)]="newCommentYesOrNo">
-        <ion-option value="Yes">Yes</ion-option>
-        <ion-option value="No">No</ion-option>
-      </ion-select>
-    </ion-item>
-  </ion-list>
-  <button ion-button (click)="addComment()">Add Comment</button>
+  <ion-card>
+    <ion-card-content>
+      <h1>{{ measure.getMeasureName() }}</h1>
+      <p>{{ measure.getMeasureSummary() }}</p>
+      <p>This proposal would:</p>
+      <p *ngFor="let detail of parseDetails()">
+        {{ detail }}
+      </p>
+      <button ion-button (click)="voteYes()">Vote Yes</button>
+      <button ion-button (click)="voteNo()">Vote No</button>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <h2>Yes {{ measure.getYesVotes() }}</h2>
+      <ion-list>
+        <ion-item *ngFor="let comment of yesComments">
+          <h3>{{ comment.getUserName() }}:</h3>
+          <p>{{ comment.getText() }}</p>
+
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <h2>No {{ measure.getNoVotes() }}</h2>
+      <ion-list>
+        <ion-item *ngFor="let comment of noComments">
+          <h3>{{ comment.getUserName() }}:</h3>
+          <p>{{ comment.getText() }}</p>
+
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <h2>Add New Comment</h2>
+      <ion-list>
+        <ion-item>
+          <ion-textarea [(ngModel)]="newCommentText" placeholder="New Comment..."></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-label>Yes or No?</ion-label>
+          <ion-select [(ngModel)]="newCommentYesOrNo">
+            <ion-option value="Yes">Yes</ion-option>
+            <ion-option value="No">No</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+      <button ion-button (click)="addComment()">Add Comment</button>
+    </ion-card-content>
+  </ion-card>
 
 
 

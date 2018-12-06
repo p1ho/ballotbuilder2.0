@@ -8,26 +8,38 @@
 </ion-header>
 
 <ion-content padding>
-  <h1>{{ user.getUserName() }}'s Ballot</h1>
-  <p>Here you will find the races and proposals for your district and state. You can click through to specific races, candidates, and measures to learn from others, share your opinions, and make mock votes.
-  <h2>Races</h2>
-  <ion-list>
-    <ion-item *ngFor="let race of races">
-      <h3>{{ race.getRaceName() }}</h3>
-      <p *ngFor="let candidate of candidates">
-        <span *ngIf="candidate.getRaceKey() == race.getRaceKey()" (click)="viewCandidate(candidate.getCandidateKey())">
-          {{ candidate.getCandidateName() }} ({{ candidate.getCandidateParty() }}) ({{ candidate.getTotalVotes() }})
-          <ion-icon name="checkmark-circle" *ngIf="isVotedFor(candidate.getCandidateKey(), race.getRaceKey())"></ion-icon>
-        </span>
-      </p>
-    </ion-item>
-  </ion-list>
-  <h2>Measures</h2>
-  <ion-list>
-    <ion-item *ngFor="let measure of measures">
-      <h3 (click)="viewMeasure(measure.getMeasureKey())">{{ measure.getMeasureName() }}</h3>
-      <p>For: {{ measure.getYesVotes() }} <ion-icon name="checkmark-circle" *ngIf="isVotedYes(measure)"></ion-icon></p>
-      <p>Against: {{ measure.getNoVotes() }} <ion-icon name="close-circle" *ngIf="isVotedNo(measure)"></ion-icon></p>
-    </ion-item>
-  </ion-list>
+  <ion-card>
+    <ion-card-content>
+      <h1>{{ user.getUserName() }}'s Ballot</h1>
+      <p>Here you will find the races and proposals for your district and state. You can click through to specific races, candidates, and measures to learn from others, share your opinions, and make mock votes.</p>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <h2>Races</h2>
+      <ion-list>
+        <ion-item *ngFor="let race of races">
+          <h3>{{ race.getRaceName() }}</h3>
+          <p *ngFor="let candidate of candidates">
+            <span *ngIf="candidate.getRaceKey() == race.getRaceKey()" (click)="viewCandidate(candidate.getCandidateKey())">
+              {{ candidate.getCandidateName() }} ({{ candidate.getCandidateParty() }}) ({{ candidate.getTotalVotes() }})
+              <ion-icon name="checkmark-circle" *ngIf="isVotedFor(candidate.getCandidateKey(), race.getRaceKey())"></ion-icon>
+            </span>
+          </p>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <h2>Measures</h2>
+      <ion-list>
+        <ion-item *ngFor="let measure of measures">
+          <h3 (click)="viewMeasure(measure.getMeasureKey())">{{ measure.getMeasureName() }}</h3>
+          <p>For: {{ measure.getYesVotes() }} <ion-icon name="checkmark-circle" *ngIf="isVotedYes(measure)"></ion-icon></p>
+          <p>Against: {{ measure.getNoVotes() }} <ion-icon name="close-circle" *ngIf="isVotedNo(measure)"></ion-icon></p>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
