@@ -15,8 +15,6 @@
 
 <ion-content padding>
   <h1>{{ candidate.getCandidateName() }} ({{ candidate.getCandidateParty() }}) {{ candidate.getTotalVotes() }}</h1>
-  <button ion-button (click)="voteFor()">Vote!</button>
-  <button ion-button (click) ="backToBallot()">Back</button>
   <h2>Bio:</h2>
   <p>Occupation: {{ candidate.getCandidateBio()['occupation'] }}</p>
   <p>Education: {{ candidate.getCandidateBio()['education'] }}</p>
@@ -26,6 +24,8 @@
     <p>{{ policy.question }}</p>
     <p>{{ policy.answer }}</p>
   </div>
+  <button ion-button (click)="voteFor()">Vote!</button>
+  <button ion-button (click) ="backToBallot()">Back</button>
   <h2>Arguments For</h2>
   <ion-list>
     <ion-item *ngFor="let comment of comments">
