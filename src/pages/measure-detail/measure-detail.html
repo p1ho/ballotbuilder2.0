@@ -33,7 +33,7 @@
     <ion-card-content>
       <h2>Yes {{ measure.getYesVotes() }}</h2>
       <ion-list>
-        <ion-item *ngFor="let comment of yesComments">
+        <ion-item *ngFor="let comment of yesComments" text-wrap>
           <h3>{{ comment.getUserName() }}:</h3>
           <p>{{ comment.getText() }}</p>
 
@@ -45,7 +45,7 @@
     <ion-card-content>
       <h2>No {{ measure.getNoVotes() }}</h2>
       <ion-list>
-        <ion-item *ngFor="let comment of noComments">
+        <ion-item *ngFor="let comment of noComments" text-wrap>
           <h3>{{ comment.getUserName() }}:</h3>
           <p>{{ comment.getText() }}</p>
 

@@ -44,7 +44,7 @@
     <ion-card-content>
       <h2>Arguments For</h2>
       <ion-list>
-        <ion-item *ngFor="let comment of comments">
+        <ion-item *ngFor="let comment of comments" text-wrap>
           <h3>{{ comment.getUserName() }}:</h3>
           <p> {{ comment.getText() }}</p>
         </ion-item>
