@@ -6,7 +6,10 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar hideBackButton>
+    <button ion-button clear icon-only (click)="backToBallot()">
+      <ion-icon name="list-box"></ion-icon>
+    </button>
     <ion-title>Ballot Measure Detail Page</ion-title>
   </ion-navbar>
 

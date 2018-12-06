@@ -4,6 +4,7 @@ import { BallotDataServiceProvider } from '../../providers/ballot-data-service/b
 import { Measure } from '../../models/measure-model';
 import { MeasureComment } from '../../models/comment-model';
 import { User } from '../../models/user-model';
+import { HomePage } from '../home/home';
 
 /**
  * Generated class for the MeasureDetailPage page.
@@ -95,6 +96,10 @@ export class MeasureDetailPage {
     }
     this.user.setMeasures(userMeasures);
     this.ballotDataService.updateUserMeasures(this.user.getMeasures());
+  }
+
+  private backToBallot() {
+    this.navCtrl.push(HomePage);
   }
 
   ionViewDidLoad() {

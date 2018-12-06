@@ -6,7 +6,10 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar hideBackButton>
+    <button ion-button clear icon-only (click)="backToBallot()">
+      <ion-icon name="list-box"></ion-icon>
+    </button>
     <ion-title>Candidate for {{race.getRaceName()}}</ion-title>
    </ion-navbar>
 
@@ -25,7 +28,6 @@
     <p>{{ policy.answer }}</p>
   </div>
   <button ion-button (click)="voteFor()">Vote!</button>
-  <button ion-button (click) ="backToBallot()">Back</button>
   <h2>Arguments For</h2>
   <ion-list>
     <ion-item *ngFor="let comment of comments">

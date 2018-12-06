@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar hideBackButton>
     <ion-title>
       Welcome to Ballot Builder!
 
@@ -16,7 +16,7 @@
       <h3>{{ race.getRaceName() }}</h3>
       <p *ngFor="let candidate of candidates">
         <span *ngIf="candidate.getRaceKey() == race.getRaceKey()" (click)="viewCandidate(candidate.getCandidateKey())">
-          {{ candidate.getCandidateName() }} ({{ candidate.getCandidateParty() }}) {{ candidate.getTotalVotes() }}
+          {{ candidate.getCandidateName() }} ({{ candidate.getCandidateParty() }}) ({{ candidate.getTotalVotes() }})
           <ion-icon name="checkmark-circle" *ngIf="isVotedFor(candidate.getCandidateKey(), race.getRaceKey())"></ion-icon>
         </span>
       </p>
@@ -26,6 +26,8 @@
   <ion-list>
     <ion-item *ngFor="let measure of measures">
       <h3 (click)="viewMeasure(measure.getMeasureKey())">{{ measure.getMeasureName() }}</h3>
+      <p>For: {{ measure.getYesVotes() }} <ion-icon name="checkmark-circle" *ngIf="isVotedYes(measure)"></ion-icon></p>
+      <p>Against: {{ measure.getNoVotes() }} <ion-icon name="close-circle" *ngIf="isVotedNo(measure)"></ion-icon></p>
     </ion-item>
   </ion-list>
 </ion-content>

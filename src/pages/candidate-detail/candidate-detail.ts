@@ -5,6 +5,7 @@ import { Candidate } from '../../models/candidate-model';
 import { Race } from '../../models/race-model';
 import { User } from '../../models/user-model';
 import { CandidateComment } from '../../models/comment-model';
+import { HomePage } from '../home/home';
 /**
  * Generated class for the CandidateDetailPage page.
  *
@@ -69,7 +70,7 @@ export class CandidateDetailPage {
   }
 
   public backToBallot() {
-    this.navCtrl.pop();
+    this.navCtrl.push(HomePage);
   }
 
   public addComment() {

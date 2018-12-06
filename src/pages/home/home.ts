@@ -49,4 +49,24 @@ export class HomePage {
     return false;
   }
 
+  private isVotedYes(measure: Measure) {
+    let userMeasures = this.user.getMeasures();
+    for (let m of userMeasures) {
+      if (m["measureKey"] === measure.getMeasureKey() && m["vote"] === "yes") {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private isVotedNo(measure: Measure) {
+    let userMeasures = this.user.getMeasures();
+    for (let m of userMeasures) {
+      if (m["measureKey"] === measure.getMeasureKey() && m['vote'] === "no") {
+        return true;
+      }
+    }
+    return false;
+  }
+
 }
